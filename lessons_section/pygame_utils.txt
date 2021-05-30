@@ -1,0 +1,114 @@
+
+display = pygame.display.set_mode((width, heigh))#definir o window do jogo
+
+carImage = pygame.image.load(carro) #carregar imagem
+display.blit(carImage, (x=300, y=100))
+
+pygame.display.set_caption("A bit Racy") #titulo
+
+
+[pintura na parede]
+
+def construir_estrada():
+    display.fill((255 / 2, 23, 212, .31), (0, 0, width, 300))
+    display.fill((255 / 2, 123, 212, .31), (0, 400, width, 530))
+    display.fill((2,0,0), (0,300,width,150))
+    display.fill((255, 255, 255), (0, 330, width, 40))
+
+[mostrar messagem de texto no display]
+
+def mostrar_output(pos_x, pos_y):
+    myfont = pygame.font.SysFont("DejaVuSans", 24)
+    lbl_x = myfont.render('pos x:' + str(pos_x), 1, (255, 255, 255))
+    lbl_y = myfont.render('pos y:' + str(pos_y), 1, (25, 255, 255))
+    display.blit(lbl_x, (30, 0))  # para desenhar os resultados
+    display.blit(lbl_y, (640, 0))
+
+    [definindo suas fontes]
+        mostrar_message_de_crash('BATEU')
+
+def mostrar_message_de_crash(msg):
+    myfont=pygame.font.Font('lessons_section/myfonts/dark.TTF',50)
+    posicao=myfont.render(msg, 1,(255,0,0))
+    display.blit(posicao,(200,200))
+
+
+[GAMELOOP]
+
+    def gama_loop():
+
+        x = 0
+        y = 0
+        clock = pygame.time.Clock()
+        crashed = False
+        car_x = 0
+        car_y = 0
+        while not crashed:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    crashed = True
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_LEFT:
+                        car_x = -5
+                    if event.key == pygame.K_RIGHT:
+                        car_x = +5
+                    if event.key == pygame.K_UP:
+                        car_y -= 5
+                    if event.key == pygame.K_DOWN:
+                        car_y += 5
+                if event.type == pygame.KEYUP:
+                    if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT or event.key == pygame.K_UP or event.key == pygame.K_DOWN:
+                        car_x = 0
+                        car_y = 0
+            x += car_x
+            y += car_y
+            construir_estrada()
+            draw_car(x, y)
+            if x>width or x<0:
+                print('Bateste')
+                mostrar_message_de_crash('PERDESTE O JOGO CARA',"You Crashed")
+            mostrar_output(x, y)
+            pygame.display.update()
+
+            clock.tick(60)
+
+[   ======ANIMATIONS ===]
+[FAZER BOLA QUICAR]
+ def update(self,gm_width,gm_heght):
+        
+        self._x+=self.__velx
+        self._y+=self.__vely
+        
+        if self._x>gm_width or  self._x<0:
+            self.__velx*=-1
+        if self._y>gm_heght or self._y<0:
+            self.__vely *=-1
+        self.rect=(self._x,self._y,self.w,self.h)
+
+
+[FAZE BOLINHAS CAIR DO SEU]
+1-CRIAR UMA LISTA DE COORDENADAS :
+    l=[  [x=199,y=188], [176,55], [32,44],[21,43] ..]
+    coords=[]
+    for i in range(60):
+        x=randint(0,800)
+        y=randint(0,500)
+        coords.append([x,y])
+
+2-Interar essa lista e para cada par de coordenada gerar um circulo
+     no looop while
+    for coord in l:
+        posx=coord[0]
+        posy=coord[1]
+        pygame.draw.circle(display,(cor),(pos_x,pos_y), radius=2)
+
+        coord[1] +=1   #paea fazer se movimentar de sua origem pra baixo
+
+        if coord[1]>800: #quando chegar nu chao ele voltara pra pos_x=0
+            coord[1]=0 
+
+
+[DESENHAR LINHAS DE RODOVIA] - - - - 
+    def draw_road_lines():
+        for i in range(0,width+130,130): (VAI SALTAR DE 130 POR 130)
+            pygame.draw.rect(display,(123,4,4),(i,230,50
